@@ -2,8 +2,13 @@
  * Ruta: /api/usuarios
  */
 const { Router } = require('express');
+const router = Router();
+
+//midlewares
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
+
 const {
   getUsuarios,
   postUsuario,
@@ -11,9 +16,7 @@ const {
   deleteUsuario,
 } = require('../controllers/usuarios.controller');
 
-const router = Router();
-
-router.get('/', getUsuarios);
+router.get('/', validarJWT, getUsuarios);
 router.post(
   '/',
   [
@@ -28,6 +31,7 @@ router.post(
 router.put(
   '/:id',
   [
+    validarJWT,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('role', 'El role es obligatorio').isString(),
     check('email', 'El email es obligatorio').isEmail(),
@@ -36,14 +40,5 @@ router.put(
   putUsuario
 );
 
-router.delete(
-  '/:id',
-  // [
-  //   check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-  //   check('role', 'El role es obligatorio').isString(),
-  //   check('email', 'El email es obligatorio').isEmail(),
-  //   validarCampos,
-  // ],
-  deleteUsuario
-);
+router.delete('/:id', validarJWT, deleteUsuario);
 module.exports = router;

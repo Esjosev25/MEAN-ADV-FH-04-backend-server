@@ -3,6 +3,7 @@ const { response } = require('express');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const { findById } = require('../models/usuario.models');
+const { generarJWT } = require('../helpers/jwt');
 const getUsuarios = async (req, res) => {
   const usuarios = await Usuario.find({}, 'nombre google id role email');
   res.json({
@@ -32,9 +33,13 @@ const postUsuario = async (req, res = response) => {
 
     // Guardar Usuarios
     await usuario.save();
+
+    //Generar token
+    const token = await generarJWT(usuario.id);
     return res.json({
       ok: true,
       usuario,
+      token,
     });
   } catch (error) {
     console.log(error);

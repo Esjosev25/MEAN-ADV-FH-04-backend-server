@@ -20,6 +20,7 @@ app.use(express.json());
 connectDB();
 
 app.use('/api/usuarios', require('./routes/usuarios.routes'));
+app.use('/api/login', require('./routes/auth.routes'));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
