@@ -1,14 +1,22 @@
 const Usuario = require('../models/usuario.models');
 const { response } = require('express');
-const { validationResult } = require('express-validator');
+
 const bcrypt = require('bcryptjs');
-const { findById } = require('../models/usuario.models');
+
 const { generarJWT } = require('../helpers/jwt');
 const getUsuarios = async (req, res) => {
-  const usuarios = await Usuario.find({}, 'nombre google id role email');
+  const { limit = 5, page = 0 } = req.query;
+
+  const [usuarios, total] = await Promise.all([
+    Usuario.find({}, 'nombre google id role email')
+      .limit(limit)
+      .skip(page * limit),
+    Usuario.count(),
+  ]);
   res.json({
     ok: true,
     usuarios,
+    total,
   });
 };
 
