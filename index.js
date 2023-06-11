@@ -10,7 +10,8 @@ const app = express();
 
 //Configurar CORS
 app.use(cors());
-
+//Servir contenido estatico
+app.use(express.static('public'))
 app.use(morgan('dev'));
 
 //lectura del body
