@@ -1,3 +1,9 @@
 node_modules/
 mongo/
 .env
+uploads/usuarios/*
+!uploads/usuarios/.gitkeep
+uploads/medicos/*
+!uploads/medicos/.gitkeep
+uploads/hospitales/*
+!uploads/hospitales/.gitkeep
