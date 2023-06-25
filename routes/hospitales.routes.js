@@ -7,7 +7,7 @@ const router = Router();
 
 //midlewares
 const { check } = require('express-validator');
-const { validarCampos } = require('../middlewares/validar-campos');
+const { validarCampos, validateBody } = require('../middlewares/validar-campos');
 
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -24,12 +24,22 @@ router.post(
   [
     validarJWT,
     check('nombre', 'El nombre del hospital es obligatorio').not().isEmpty(),
+    validateBody(['nombre']),
     validarCampos,
   ],
   postHospital
 );
 
-router.put('/:id', [validarJWT, validarCampos], putHospital);
+router.put(
+  '/:id',
+  [
+    validarJWT,
+    check('nombre', 'El nombre del hospital es obligatorio').not().isEmpty(),
+    validateBody(['nombre']),
+    validarCampos,
+  ],
+  putHospital
+);
 
 router.delete('/:id', validarJWT, deleteHospital);
 module.exports = router;

@@ -11,6 +11,23 @@ const validarCampos = (req, res = response, next) => {
   next();
 };
 
+const validateBody = (keys) => {
+  return (req, res, next) => {
+    const bodyKeys = Object.keys(req.body);
+    const extraKeys = [];
+    for (const bodyKey of bodyKeys) {
+      if(!keys.includes(bodyKey))
+        extraKeys.push(bodyKey)
+    }
+    if (bodyKeys.length > keys.length) {
+      return res.status(400).json({ ok: false,errors: `Se enviaron algunos parametros extras: ${extraKeys.join(', ')}` });
+    }
+    
+    next();
+  };
+};
+
 module.exports = {
   validarCampos,
+  validateBody
 };
