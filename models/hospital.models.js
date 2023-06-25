@@ -1,6 +1,6 @@
-const { Schema, model, SchemaType } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const HospitalSchema = Schema(
+const HospitalSchema = new Schema(
   {
     nombre: {
       type: String,
