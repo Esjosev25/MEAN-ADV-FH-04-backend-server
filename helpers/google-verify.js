@@ -7,10 +7,7 @@ async function googleVerify(token) {
     audience: process.env.CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
   });
   const payload = ticket.getPayload();
-  console.log({ payload });
   return payload;
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
 }
 
 module.exports = {
